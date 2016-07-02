@@ -1,0 +1,55 @@
+#! /bin/sh
+
+##########################################################################
+## A small script to be used after updating Pacman's mirrorlist		##
+## It backsup the old mirrorlist, then ranks the newer one by speed	##
+## This code should be run as root					##
+##									##
+## -------------------------------------------------------------------- ##
+##									##
+## After running this there would be 3 mirrorlists			##
+## The old one ........................ /etc/pacman.d/mirrorlist.old	##
+## The new one ........................ /etc/pacman.d/mirrorlist.pacnew	##
+## The ranked one (with top 8 mirrors)  /etc/pacman.d/mirrorlist	##
+##########################################################################
+
+# Check if effective user is ROOT
+# exit if not root
+if [[ $EUID -ne 0 ]]; then
+	echo 'This script can only be run as root ...'
+	echo 'exiting ...'
+	exit -1
+fi
+
+
+# go to pacman mirrorlist directory
+cd /etc/pacman.d/
+pwd
+
+# save the older version, just in case
+echo 'Creating a backup of the old mirrorlist ...'
+mv mirrorlist mirrorlist.old
+echo 'Mirrorlist backed-up ...'
+
+# uncomment the servers in the new mirrorlist
+echo 'Preparing new mirrorlist ...'
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.pacnew
+echo
+
+# rank mirrors by speed -> produce top 8 mirrors
+# give verbose output of what's happening
+echo 'Ranking mirrors by speed and saving top 8 ...'
+rankmirrors -n 8 --verbose /etc/pacman.d/mirrorlist.pacnew > /etc/pacman.d/mirrorlist
+echo 'Mirrors ranked ...'
+echo
+
+# update pacman cache
+echo 'Updating pacman cache from new mirrors ...'
+pacman -Syy
+echo 'All done, cheers!'
+
+# return to previous place
+cd -
+
+# finish script
+exit 0
