@@ -1,16 +1,16 @@
 #! /bin/sh
 
 ##########################################################################
-## A small script to be used after updating Pacman's mirrorlist		##
-## It backsup the old mirrorlist, then ranks the newer one by speed	##
-## This code should be run as root					##
-##									##
+## A small script to be used after updating Pacman's mirrorlist.		##
+## It backsup the old mirrorlist, then ranks the newer one by speed.	##
+## This code should be run as root										##
+##																		##
 ## -------------------------------------------------------------------- ##
-##									##
-## After running this there would be 3 mirrorlists			##
-## The old one ........................ /etc/pacman.d/mirrorlist.old	##
-## The new one ........................ /etc/pacman.d/mirrorlist.pacnew	##
-## The ranked one (with top 8 mirrors)  /etc/pacman.d/mirrorlist	##
+##																		##
+## After running this there would be 3 mirrorlists						##
+## The old one	.......................	/etc/pacman.d/mirrorlist.old	##
+## The new one	.......................	/etc/pacman.d/mirrorlist.pacnew	##
+## The ranked	.......................	/etc/pacman.d/mirrorlist		##
 ##########################################################################
 
 # Check if effective user is ROOT
@@ -21,6 +21,24 @@ if [[ $EUID -ne 0 ]]; then
 	exit -1
 fi
 
+# If user inputs a parameter desiding how
+# many of the top ranked servers to store
+if [ $# -eq 1 ] && [ $1 -ne 0 ]; then
+	# if one paramter was inputted
+	# if it's a number then use it as number of ranked sites to keep
+	# else exit with error
+	case $1 in
+		(*[!0-9]*|'')	echo 'Parameter must be a number !!'; echo 'exiting ...'; exit 1;;
+		(*)				num=$1;;
+	esac
+elif [[ $# -gt 1 ]]; then
+	# if more than one input was given exit with error
+	echo 'Umbiguous parameters ...'
+	echo 'exiting ...'
+	exit 1
+fi
+# if num wasn't yet set give it a value
+: ${num:="8"}
 
 # go to pacman mirrorlist directory
 cd /etc/pacman.d/
@@ -38,18 +56,19 @@ echo
 
 # rank mirrors by speed -> produce top 8 mirrors
 # give verbose output of what's happening
-echo 'Ranking mirrors by speed and saving top 8 ...'
-rankmirrors -n 8 --verbose /etc/pacman.d/mirrorlist.pacnew > /etc/pacman.d/mirrorlist
+echo "Ranking mirrors by speed and saving top $num ..."
+rankmirrors -n $num --verbose /etc/pacman.d/mirrorlist.pacnew > /etc/pacman.d/mirrorlist
 echo 'Mirrors ranked ...'
 echo
 
 # update pacman cache
 echo 'Updating pacman cache from new mirrors ...'
 pacman -Syy
+echo
 echo 'All done, cheers!'
 
 # return to previous place
 cd -
 
-# finish script
+# exit script
 exit 0
