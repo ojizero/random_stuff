@@ -12,8 +12,8 @@
 !/^[#][^!].*$/ && !/^\s*$/ {
 	# lines are split automaticly once -F is passed a separator ! :D
 	# trim whitespaces from the line parts and remove inline comments
-	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", $1);
-	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", $2);
+	gsub (/(^\s+|\s+$|[#][^'"]*$)/, "", $1);
+	gsub (/(^\s+|\s+$|[#][^'"]*$)/, "", $2);
 	# print the first part (option) with equals sign next to the second part (value)
 	# outputs Option=Value to shell
 	print $1"="$2;
