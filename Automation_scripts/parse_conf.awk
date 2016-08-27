@@ -10,8 +10,8 @@
 
 # NOTEtoSELF: using [...] around # isn't necessary, but it makes synatx highlight usable
 !/^[#][^!].*$/ && !/^\s*$/ {
-	# split line by '='
-	split ($0, l, "=");
+	# split line by FS given using the -F option 
+	split ($0, l, FS);
 	# trim whitespaces from the line parts and remove inline comments
 	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", l[1]);
 	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", l[2]);
