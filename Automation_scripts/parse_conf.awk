@@ -10,12 +10,11 @@
 
 # NOTEtoSELF: using [...] around # isn't necessary, but it makes synatx highlight usable
 !/^[#][^!].*$/ && !/^\s*$/ {
-	# split line by FS given using the -F option 
-	split ($0, l, FS);
+	# lines are split automaticly once -F is passed a separator ! :D
 	# trim whitespaces from the line parts and remove inline comments
-	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", l[1]);
-	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", l[2]);
+	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", $1);
+	gsub (/(^\s+|\s+$|[#].*[^'"]+.*$)/, "", $2);
 	# print the first part (option) with equals sign next to the second part (value)
 	# outputs Option=Value to shell
-	print l[1]"="l[2];
+	print $1"="$2;
 }
