@@ -9,7 +9,7 @@
 
 
 # NOTEtoSELF: using [...] around # isn't necessary, but it makes synatx highlight usable
-!/^[#][^!].*$/ && !/^\s*$/ {
+!/^\s*[#].*$/ && !/^\s*$/ {
 	# lines are split automaticly once -F is passed a separator ! :D
 	# trim whitespaces from the line parts and remove inline comments
 	gsub (/(^\s+|\s+$|[#][^'"]*$)/, "", $1);
