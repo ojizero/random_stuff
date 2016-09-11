@@ -1,0 +1,18 @@
+#! /bin/sh
+
+##################################################################################
+##	A small script to hide application icons from system launcher, it achieves	##
+##	this by reading the file names from a directory named Hide in the			##
+##	/usr/share/applications directory and adding the option Hidden=true for 	##
+##	the corresponding .desktop files under /usr/share/applications				##
+##################################################################################
+
+dir='/usr/share/applications/'
+add='Hidden=true'
+ext='.hide'
+
+for file in $(find $dir'Hide/' | grep -E '^.*.hide$' | sed -e 's/Hide\///' -e 's/.hide$//'); do
+	if [[ ! $(grep -E '^Hidden' "$file") ]]; then
+		echo $add >> $file
+	fi
+done
