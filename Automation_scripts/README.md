@@ -9,3 +9,9 @@ I'm taking the practical training course in my university, and we are required t
 
 ## parse_conf.awk
 I was wondering on how to parse through config files quickly while ignoring comments, whitespaces, and the such, so I decided to give it a try lol, this script prints out pairs of the options of a config file paired with their values (separated by '='), the **parse_conf.sh** script wraps this script, and calles it inside `declare $( ... )`. This wrapper would create Shell variables for each option in the config file and set it to the value in assigned by the config. It splits options from values using '=' as a default delimeter, or if passed a second argument would use it as a delimeter. A third optional arguman can be used to give it the path to the parser, the default is `'./parse_conf.awk'`.
+
+## hide_icons
+Remove icons from app launcher based on a subdirectory mimicing the `/usr/share/applications`. Adds `Hidden=True` options to affected `.desktop` files.
+
+## blender_construct_fibonaci_curve.py
+I wanted to draw a wallpaper, and I wanted to use the Fibonaci spiral as basis for it, but making a Fbonaci spiral is very repetitive so I ended up automating it ith this script.
