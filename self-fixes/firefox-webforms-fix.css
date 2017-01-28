@@ -1,13 +1,37 @@
 /*
-	A userstyle for use with Stylish addon to fix
-	the irritating website forms becomming all
-	black and unviewable  black Gtk+ themes
+	A user style sheet for use with Stylish to fix the
+	irritating website forms going all black and
+	unusable from dark Gtk+ themes.
 */
 
 @-moz-document regexp('^http(s?)://(.*)$') {
-	input, button, textarea, select {
-		background-color:#fff;
-		border-radius:5px;
-		color:#000
+		input, button, textarea, select {
+		background-color: #fff;
+		border-radius: 5px;
+		color: #000;
+		border: 1.5px solid #555;
+	}
+
+	input[type=submit], button[type=submit] {
+		display: inline-block;
+		cursor: pointer;
+		text-align: center;
+		text-decoration: none;
+		outline: none;
+		color: #fff;
+		background-color: #15152C;
+		border: none;
+		border-radius: 5px;
+		box-shadow: 0 2px #9993;
+	}
+
+	input[type=submit]:hover, button[type=submit]:hover {
+		background:#111;
+	}
+
+	input[type=submit]:active, button[type=submit]:active {
+		background-color: #111;
+		box-shadow: 0 1px #9993;
+		transform: translateY(1px);
 	}
 }
