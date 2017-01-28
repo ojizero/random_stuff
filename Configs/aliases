@@ -1,0 +1,90 @@
+## ############################################# ##
+## Some aliases and functions I use on my system ##
+## ############################################# ##
+
+# When on ArchLinux
+if [[ $( echo $(uname --kernel-release) | grep -io 'arch' ) ]]; then
+	# View and remove orphand packages in system
+	## Using Pacman
+	alias pac_view_orphands='pacman -Qdt'
+	alias pac_rm_orpahnds='sudo pacman -Rsn $(pacman -Qqdt)'
+
+	## Using Yaourt, if Yaourt is installed
+	if pacman -Qi yaourt > /dev/null; then
+		alias view-orphands='yaourt -Qdt'
+		alias rm-orphands='yaourt -Rsn $(yaourt -Qqdt)'
+	fi
+fi
+
+# renew the IP(v4) address from DHCP
+# for when the DHCP server on my router was flawed
+alias renewaddr_wlp2s0='sudo dhclient -r wlp2s0 && sudo dhclient wlp2s0'
+
+# 'free' sanity
+alias free='\free -h'
+
+# 'ls' sanity
+alias ls='\ls -l --color=auto'
+alias la='\ls -A'
+
+# 'df' sanity
+alias df='\df -h'
+
+# display global IP
+alias ipglobal='dig +short myip.opendns.com @resolver1.opendns.com'
+
+# to view the what depends on this package
+function whoneeds {
+	# pactree(reverse and colored) of PKG pipe to less(colored)
+	pactree -rc $1 | less -R
+}
+
+# monitor (live) cpu clock
+alias monitcpu='watch "grep \"cpu MHz\" /proc/cpuinfo && echo && echo && sensors"'
+
+# open file/web-page with default app
+alias open='xdg-open'	# xdg-open delegates to system default, preferred in case os switching the DE ?
+
+# upgrade PIP installed packages all in once command
+alias spip='sudo pip'
+alias pip-upgrade='pip install --upgrade $(pip list --outdated --format=legacy | grep -Eo "^\w*\s")'
+alias spip-upgrade='sudo pip install --upgrade $(pip list --outdated --format=legacy | grep -Eo "^\w*\s")'
+
+# to remove the extremely stupid '+' signs in the files names downloaded from Ritaj !
+function rm_+_ritaj {
+	files=(*)
+	for f in "${files[@]}"; do
+		if [[ $(echo "$f" | grep -o '+') ]]; then
+			mv "$f" "$(echo "$f" | tr '+' ' ')"
+		fi
+	done
+}
+
+# Starts PHP server to use the Adminer database manager
+function php_adminer {
+	port="$1"
+	: ${port:=8000} # default port
+	php -S localhost:$port -t /usr/share/webapps/adminer
+}
+
+# When making a directory, create whatever neccessary parents, also be verbose
+alias mkdir='\mkdir -pv'
+
+# Add PID to jobs
+alias jobs='\jobs -l'
+
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+
+## get top process eating cpu
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+
+
+## Numbering the directory stack
+alias dirs='\dirs -v'
+
+## For sublime
+alias subl='\subl3'
+alias subl.='\subl3 .'
