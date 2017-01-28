@@ -4,7 +4,7 @@
 	unusable from dark Gtk+ themes.
 */
 
-@-moz-document regexp('^http(s?)://(!((.*)youtube\.com))(.*)$') {
+@-moz-document regexp('^http(s?)://(?!((.*)youtube\.com)|((.*)github\.com))(.*)$') {
 		input, button, textarea, select {
 		background-color: #fff;
 		border-radius: 5px;
