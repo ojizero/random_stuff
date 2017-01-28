@@ -1,0 +1,13 @@
+/*
+	A userstyle for use with Stylish addon to fix
+	the irritating website forms becomming all
+	black and unviewable  black Gtk+ themes
+*/
+
+@-moz-document regexp('^http(s?)://(.*)$') {
+	input, button, textarea, select {
+		background-color:#fff;
+		border-radius:5px;
+		color:#000
+	}
+}
