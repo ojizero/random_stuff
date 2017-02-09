@@ -25,7 +25,7 @@ alias free='\free -h'
 
 # 'ls' sanity
 alias ls='\ls -l --color=auto'
-alias la='\ls -A'
+alias la='\ls -Al --color=auto'
 
 # 'df' sanity
 alias df='\df -h'
