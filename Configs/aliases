@@ -88,3 +88,13 @@ alias dirs='\dirs -v'
 ## For sublime
 alias subl='\subl3'
 alias subl.='\subl3 .'
+
+# Improved mv
+function mv () {
+	dir="$2"
+	tmp="$2"; tmp="${tmp: -1}"
+	[[ "$tmp" != "/" ]] && dir="$(dirname "$2")";
+	[[ -a "$dir" ]] || mkdir -pv "$dir"
+	mv "$@"
+}
+
