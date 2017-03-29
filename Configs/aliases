@@ -3,7 +3,7 @@
 ## ############################################# ##
 
 # When on ArchLinux
-if [[ $( echo $(uname --kernel-release) | grep -io 'arch' ) ]]; then
+if [[ $(echo $(uname -a) | grep -io 'arch' ) ]]; then
 	# View and remove orphand packages in system
 	## Using Pacman
 	alias pac_view_orphands='pacman -Qdt'
@@ -14,14 +14,37 @@ if [[ $( echo $(uname --kernel-release) | grep -io 'arch' ) ]]; then
 		alias view-orphands='yaourt -Qdt'
 		alias rm-orphands='yaourt -Rsn $(yaourt -Qqdt)'
 	fi
+
+	# to view the what depends on this package
+	function whoneeds {
+		# pactree(reverse and colored) of PKG pipe to less(colored)
+		pactree -rc $1 | less -R
+	}
+fi
+
+# Not on MacOS
+if [[ -z $(echo $(uname) | grep -i 'darwin') ]]; then
+	# open file/web-page with default app
+	alias open='xdg-open'	# xdg-open delegates to system default, preferred in case os switching the DE ?
+	
+	# 'free' sanity
+	alias free='\free -h'
+	
+	# monitor (live) cpu clock
+	alias monitcpu='watch "grep \"cpu MHz\" /proc/cpuinfo && echo && echo && sensors"'
+fi
+
+# On MacOS
+if [[ $(echo $(uname) | grep -i 'darwin') ]]; then
+	# Python
+	alias python='python3'
+	alias python2='\python'
+	alias pip='pip3'
 fi
 
 # renew the IP(v4) address from DHCP
 # for when the DHCP server on my router was flawed
 alias renewaddr_wlp2s0='sudo dhclient -r wlp2s0 && sudo dhclient wlp2s0'
-
-# 'free' sanity
-alias free='\free -h'
 
 # 'ls' sanity
 alias ls='\ls -l --color=auto'
@@ -32,18 +55,6 @@ alias df='\df -h'
 
 # display global IP
 alias ipglobal='dig +short myip.opendns.com @resolver1.opendns.com'
-
-# to view the what depends on this package
-function whoneeds {
-	# pactree(reverse and colored) of PKG pipe to less(colored)
-	pactree -rc $1 | less -R
-}
-
-# monitor (live) cpu clock
-alias monitcpu='watch "grep \"cpu MHz\" /proc/cpuinfo && echo && echo && sensors"'
-
-# open file/web-page with default app
-alias open='xdg-open'	# xdg-open delegates to system default, preferred in case os switching the DE ?
 
 # upgrade PIP installed packages all in once command
 alias spip='sudo pip'
