@@ -40,6 +40,10 @@ if [[ $(echo $(uname) | grep -i 'darwin') ]]; then
 	alias python='python3'
 	alias python2='\python'
 	alias pip='pip3'
+
+	function notify () {
+		osascript -e "display notification \"$2\" with title \"$1\""
+	}
 fi
 
 # renew the IP(v4) address from DHCP
@@ -47,7 +51,7 @@ fi
 alias renewaddr_wlp2s0='sudo dhclient -r wlp2s0 && sudo dhclient wlp2s0'
 
 # 'ls' sanity
-alias ls='\ls -l --color=auto'
+alias ls='\ls -lh --color=auto'
 alias la='\ls -Al --color=auto'
 
 # 'df' sanity
@@ -101,11 +105,11 @@ alias subl='\subl3'
 alias subl.='\subl3 .'
 
 # Improved mv
-function mv () {
-	dir="$2"
-	tmp="$2"; tmp="${tmp: -1}"
-	[[ "$tmp" != "/" ]] && dir="$(dirname "$2")";
-	[[ -a "$dir" ]] || mkdir -pv "$dir"
-	mv "$@"
-}
+#function mv () {
+#	dir="$2"
+#	tmp="$2"; tmp="${tmp: -1}"
+#	[[ "$tmp" != "/" ]] && dir="$(dirname "$2")";
+#	[[ -a "$dir" ]] || mkdir -pv "$dir"
+#	mv "$@"
+#}
 
