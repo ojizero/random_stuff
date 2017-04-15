@@ -9,7 +9,10 @@ NOTIFY_TITLE='Freshclam CRON'
 function notify () {
 	osascript -e "display notification \"$2\" with title \"$1\""
 }
+
+
 CheckForNetwork
+
 echo "----------------------------------"
 echo "freshclam run $(date)"
 echo "----------------------------------"
